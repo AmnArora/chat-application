@@ -1,15 +1,19 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 
-var app = express();
+const chatRoutes = require('./server/routes/chat.routes');
+const db = require('./server/config/database');
+const app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': 'false' }));
 app.use(express.static(path.join(__dirname, 'dist')));
+
+app.use('/chat', chatRoutes);
 
 // If no end points match, catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -26,7 +30,7 @@ app.use(function (err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.send('error');
 });
 
 module.exports = app;
