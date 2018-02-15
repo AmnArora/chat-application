@@ -8,6 +8,16 @@ const chatRoutes = require('./server/routes/chat.routes');
 const db = require('./server/config/database');
 const app = express();
 
+var server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const port = process.env.PORT || '3000';
+
+io.on('connection', function (socket) {
+    socket.on('saveMsg', function (data) {
+        io.emit('newMsg', { message: data });
+    });
+});
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ 'extended': 'false' }));
@@ -33,4 +43,4 @@ app.use(function (err, req, res, next) {
     res.send('error');
 });
 
-module.exports = app;
+server.listen(port);

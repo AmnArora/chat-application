@@ -16,7 +16,7 @@ router.get('/:roomId', async function (req, res, next) {
 router.post('/', async function (req, res, next) {
     try {
         let chats = await chatService.saveChat(req.body);
-        res.send();
+        res.send(chats);
     } catch (error) {
         next(error);
     }

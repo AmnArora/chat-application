@@ -1,0 +1,14 @@
+.chat-container {
+    height: 500px;
+    overflow: auto;
+    border: 2px solid #DC143C;
+}
+.crimson {
+    background-color: #DC143C;
+}
+
+.leaveChat {
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: underline;
+}

@@ -1,3 +1,57 @@
-<p>
-  chat works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3" *ngIf="!isUserJoined">
+      <h4>Please Enter a Name and select a Room to start chatting</h4>
+      <form (ngSubmit)="onJoinRoom()" #roomForm="ngForm">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]="user.name" name="name" placeholder="Enter a name" required="" />
+        </div>
+        <div class="form-group">
+          <select class="form-control" [(ngModel)]="user.room" name="room" required="">
+            <option value="">Please select a Room</option>
+            <option value="room1">Room 1</option>
+            <option value="room2">Room 2</option>
+            <option value="room3">Room 3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="!roomForm.form.valid">Proceed</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6 offset-md-3" *ngIf="isUserJoined">
+      <div>
+        <div class="text-center crimson">
+          <strong> Room ID: </strong> {{ user.room }}
+          (<span class="leaveChat" (click)="leaveChat()">Leave Chat</span>)
+        </div>
+        <div class="chat-container">
+          <ul class="chat-list-container">
+            <li *ngFor="let chat of chats">
+              <div class="chat-body">
+                <div class="header">
+                  <strong>{{ chat.name }}</strong>
+                  <small class="pull-right text-muted">
+                    <span>{{ chat.timestamp | date: 'medium' }}</span>
+                  </small>
+                </div>
+                <p>{{ chat.message }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <form (ngSubmit)="send()" #msgInputForm="ngForm">
+            <div class="input-group">
+              <input type="text" [(ngModel)]="msg" name="message" class="form-control input-sm" required="" />
+              <span class="input-group-btn">
+                <button class="btn btn-success" [disabled]="!msgInputForm.form.valid">
+                  Send</button>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
